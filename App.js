@@ -6,12 +6,11 @@ export default function App() {
   const [number, setNumber] = useState(0);
   return (
     <View style={styles.container}>
-      <Text style={{fontSize:50}}>결과: {number}</Text>
-      <View style={{flexDirection: "row", gap:10}}>
-        <Button title="증가" onPress={()=>{setNumber(number+1)}}/>
-        <Button title="감소" onPress={()=>{setNumber(number-1)}}/>
+      <Text style={styles.text}>결과: {number}</Text>
+      <View style={styles.btnGroup}>
+        <Button style={styles.btn} title="증가" onPress={()=>{setNumber(number+1)}}/>
+        <Button style={styles.btn} title="감소" onPress={()=>{setNumber(number-1)}}/>
       </View>
-      {/*<StatusBar backgroundColor="red" barStyle="dark-content" hidden={true}/>*/}
       <StatusBar style='auto'/>
     </View>
   );
@@ -24,4 +23,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  text: {
+    fontSize: 50,
+    fontWeight:"bold",
+  },
+  btnGroup: {
+    flexDirection:"row",
+    gap:10,
+  },
+  btn: {
+    flex:2, 
+  }
 });
