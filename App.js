@@ -1,11 +1,34 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
-import React, {useState} from 'react'
+import React, {useState, useEffect, useSyncExternalStore} from 'react'
 import {Dimensions} from 'react-native';
+import * as Location from 'expo-location';
 
 const SCREEN_WIDTH= Dimensions.get('window').width;
 
 const App = ()=>{
+
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  // 허가여부
+  const [permitted, setPermitted] = useState(true);
+
+  const locationData = async ()=>{
+    const {granted} = await Location.requestForegroundPermissionsAsync();
+    // console.log(granted);
+    if (!granted) {
+      setPermitted(false);
+      setErrorMsg('위치에 대한 권한 부여가 거부되었습니다.');
+
+      return;
+    }
+  }
+
+  useEffect(() => {
+    locationData();
+  }, []); 
+
   return (
     <View style={styles.container}>
       <View style={styles.cityCon}>
@@ -63,7 +86,7 @@ const App = ()=>{
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor: "#91a51c"
+    backgroundColor: "#f0e924"
   },
   cityCon: {
     flex:0.3,
