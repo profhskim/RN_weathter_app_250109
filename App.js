@@ -1,6 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import React, {useState} from 'react'
+import {Dimensions} from 'react-native';
+
+const SCREEN_WIDTH= Dimensions.get('window').width;
 
 const App = ()=>{
   return (
@@ -8,10 +11,19 @@ const App = ()=>{
       <View style={styles.cityCon}>
         <Text style={styles.city}>Ansan</Text>
       </View>
-      <ScrollView horizontal contentContainerStyle={styles.weather}>
+
+      <View style={styles.regDateCon}>
+        <Text style={styles.regDate}>1월 9일, 목, 15:51</Text>
+      </View>
+   
+      <ScrollView 
+        horizontal 
+        pagingEnabled 
+        contentContainerStyle={styles.weather}
+        showsHorizontalScrollIndicator = {false}
+      >
         <View style={styles.weatherInner}>
           <View style={styles.day}>
-            <Text style={styles.regDate}>1월 9일, 목, 15:51</Text>
             <Text style={styles.desc}>맑음</Text>
           </View>
           <View style={styles.tempCon}>
@@ -20,7 +32,6 @@ const App = ()=>{
         </View>
         <View style={styles.weatherInner}>
           <View style={styles.day}>
-            <Text style={styles.regDate}>1월 9일, 목, 15:51</Text>
             <Text style={styles.desc}>맑음</Text>
           </View>
           <View style={styles.tempCon}>
@@ -29,7 +40,6 @@ const App = ()=>{
         </View>
         <View style={styles.weatherInner}>
           <View style={styles.day}>
-            <Text style={styles.regDate}>1월 9일, 목, 15:51</Text>
             <Text style={styles.desc}>맑음</Text>
           </View>
           <View style={styles.tempCon}>
@@ -38,7 +48,6 @@ const App = ()=>{
         </View>
         <View style={styles.weatherInner}>
           <View style={styles.day}>
-            <Text style={styles.regDate}>1월 9일, 목, 15:51</Text>
             <Text style={styles.desc}>맑음</Text>
           </View>
           <View style={styles.tempCon}>
@@ -57,7 +66,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#91a51c"
   },
   cityCon: {
-    flex:1,
+    flex:0.3,
   },
   city:{
     flex:1,
@@ -67,11 +76,25 @@ const styles = StyleSheet.create({
     textAlign:"center",
     fontWeight:"bold",
   },
-  weather: {
-    backgroundColor:"blue",
+  regDateCon: {
+    alignItems:"center",
   },
+  regDate: {
+    paddingTop:10,
+    paddingLeft:20,
+    paddingRight:20,
+    paddingBottom:15,
+    backgroundColor:"black",
+    color:"white" ,
+    fontWeight:"bold",
+    borderRadius:20,
+    overflow: "hidden",
+  },
+
+  weather: {},
   weatherInner:{
-    flex:3,
+    //flex:3,
+    width:SCREEN_WIDTH,
   },
   day: {
     flex:0.2,
@@ -79,17 +102,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
 
    },
-  regDate: {
-    paddingTop:10,
-    paddingLeft:20,
-    paddingRight:20,
-    paddingBottom:15,
-    backgroundColor:"black",
-    color:"white",
-    fontWeight:"bold",
-    borderRadius:20,
-    overflow: "hidden",
-  },
+ 
   desc: {
     flex:1.5,
     marginTop:20,
