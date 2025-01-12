@@ -10,6 +10,7 @@ const App = ()=>{
 
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [city,setCity] = useState(null);
 
   // 허가여부
   const [permitted, setPermitted] = useState(true);
@@ -23,6 +24,21 @@ const App = ()=>{
 
       return;
     }
+    const {coords:{latitude, longitude}} = await Location.getCurrentPositionAsync({accuracy:5});
+    /*
+    console.log(latitude);
+    console.log(longitude);
+    */
+    const address = await Location.reverseGeocodeAsync(
+      {latitude,longitude}, 
+      //{useGoogleMaps:false},
+    );
+    /*
+    console.log(address)
+    console.log(address[0].city)
+    */
+    const cityAddress = address[0].city;
+    setCity(cityAddress);
   }
 
   useEffect(() => {
@@ -32,7 +48,7 @@ const App = ()=>{
   return (
     <View style={styles.container}>
       <View style={styles.cityCon}>
-        <Text style={styles.city}>Ansan</Text>
+        <Text style={styles.city}>{city}</Text>
       </View>
 
       <View style={styles.regDateCon}>
