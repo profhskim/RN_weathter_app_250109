@@ -3,8 +3,9 @@ import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import React, {useState, useEffect, useSyncExternalStore} from 'react'
 import {Dimensions} from 'react-native';
 import * as Location from 'expo-location';
+import {GOOGLE_GEOLOCATION_API_KEY} from '@env';
 
-const SCREEN_WIDTH= Dimensions.get('window').width;
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 const App = ()=>{
 
@@ -25,19 +26,20 @@ const App = ()=>{
       return;
     }
     const {coords:{latitude, longitude}} = await Location.getCurrentPositionAsync({accuracy:5});
+  
+    const myApiKey = GOOGLE_GEOLOCATION_API_KEY;
+    const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${myApiKey}`
+   
+    const response = await fetch(apiUrl);
+    const data = await response.json();
     /*
-    console.log(latitude);
-    console.log(longitude);
-    */
-    const address = await Location.reverseGeocodeAsync(
-      {latitude,longitude}, 
-      //{useGoogleMaps:false},
-    );
-    /*
+    console.log(data);
+    console.log(data.results[7].formatted_address)
+
     console.log(address)
     console.log(address[0].city)
     */
-    const cityAddress = address[0].city;
+    const cityAddress = data.results[7].formatted_address;
     setCity(cityAddress);
   }
 
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0e924"
   },
   cityCon: {
-    flex:0.3,
+    flex:0.4,
   },
   city:{
     flex:1,
@@ -130,7 +132,9 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 
-  weather: {},
+  weather: {
+    alignItems:"center",
+  },
   weatherInner:{
     //flex:3,
     width:SCREEN_WIDTH,
@@ -139,7 +143,6 @@ const styles = StyleSheet.create({
     flex:0.2,
     alignItems:"center",
     justifyContent: "center",
-
    },
  
   desc: {
